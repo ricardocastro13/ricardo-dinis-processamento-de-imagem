@@ -1,1 +1,82 @@
 
+@startuml
+
+' Configurações visuais
+skinparam classAttributeIconStyle false
+skinparam packageStyle rectangle
+
+title Modelo de Classes - Calculadora Científica
+
+package "App" {
+    class Main {
+        + main(args: String[]): void
+    }
+}
+
+package "Lógica de Negócio" {
+    class Operacao {
+        ' Operações Elementares
+        + soma(a: double, b: double): double
+        + subtracao(a: double, b: double): double
+        + multiplicacao(a: double, b: double): double
+        + divisao(a: double, b: double): double
+        
+        ' Operações Científicas
+        + logaritmo(x: double): double
+        + eleva(base: double, expoente: double): double
+        + seno(x: double): double
+        + cosseno(x: double): double
+        + tangente(x: double): double
+    }
+
+    class Memoria {
+        - valorArmazenado: double
+        + adicionar(valor: double): void
+        + subtrair(valor: double): void
+        + obterValor(): double
+        + limpar(): void
+    }
+}
+
+package "Interface e Controle" {
+    class Calculadora {
+        - operacao: Operacao
+        - memoria: Memoria
+        - visor: Visor
+        - botoes: Butoes
+        + iniciar(): void
+    }
+
+    class Visor {
+        - textoAtual: String
+        + mostrar(texto: String): void
+        + limpar(): void
+        + obterTexto(): String
+    }
+
+    class Butoes {
+        + criarBotoes(): void
+        + capturarEvento(): void
+    }
+}
+
+package "Testes (JUnit)" {
+    class testOperacoes {
+        + testSoma(): void
+        + testSubtracao(): void
+        + testDivisao(): void
+        + testLogaritmo(): void
+        + testTrigonometria(): void
+    }
+}
+
+' Relacionamentos
+Main --> Calculadora : instancia >
+Calculadora "1" *-- "1" Operacao : compõe >
+Calculadora "1" *-- "1" Visor : controla >
+Calculadora "1" *-- "1" Butoes : gerencia >
+Calculadora "1" o-- "1" Memoria : utiliza >
+
+testOperacoes ..> Operacao : testa >
+
+@enduml
